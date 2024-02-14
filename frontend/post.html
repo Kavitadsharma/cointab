@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Posts</title>
+  <!-- Include any necessary stylesheets or scripts -->
+</head>
+<body>
+  <h1>User Posts</h1>
+
+  <div id="postContainer"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const postContainer = document.getElementById('postContainer');
+
+      // Fetch posts for the specific user using the userId parameter from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+
+      // Fetch user posts from the API
+      fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
+        .then(response => response.json())
+        .then(posts => {
+          // Display posts in the postContainer
+          postContainer.innerHTML = posts.map(post => (
+            `<div>
+              <h3>${post.title}</h3>
+              <p>${post.body}</p>
+            </div>`
+          )).join('');
+        })
+        .catch(error => console.error('Error fetching posts:', error));
+    });
+  </script>
+</body>
+</html>
